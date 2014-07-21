@@ -115,7 +115,7 @@ void loop()
           return;
         }
         
-        execute(data[0], data[1], data[2], bodyLen);
+        execute(data, bodyLen);
       }
       else
       {
@@ -140,8 +140,8 @@ void loop()
   http.stop();
 }
 
-void execute(char d1, char d2, char d3, int len){
-  char data[] = {d1,d2,d3};
+void execute(char data[], int len){
+  //char data[] = {d1,d2,d3};
   char device = data[0];
   if(device == 'H'){
       Serial.print("Heat Pump: ");
