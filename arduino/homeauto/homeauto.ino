@@ -51,7 +51,7 @@ void loop()
   EthernetClient c;
   HttpClient http(c);
   
-  response = http.get(kHostname, 4567, kPath);
+  response = http.get(kHostname, 3000, kPath);
   if (response == 0)
   {
     Serial.println("startedRequest ok");
@@ -166,6 +166,7 @@ void execute(char data[], int len){
           Serial.print(irData[i], HEX);
         }
         digitalWrite(STATUS_PIN, HIGH);
+        Serial.print(dataLen*8, DEC);
         irsend.sendFujitsu(irData, dataLen * 8);
         digitalWrite(STATUS_PIN, LOW);
         Serial.println("]");
@@ -178,6 +179,7 @@ void execute(char data[], int len){
       
       
     }
+    
     else if(device == 'S'){
       Serial.print("Switch: ");
       char subDevice = data[1];
@@ -206,6 +208,10 @@ void execute(char data[], int len){
           Serial.println("Unrecognized command");
         }
       }
+    }
+    else{
+      //Serial.println("Normal send");
+       //irsend.sendFujitsu(ON_20_DEG_HEAT, 128);
     }
     
 }

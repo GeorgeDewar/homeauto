@@ -1,12 +1,23 @@
 class ControlController < ApplicationController
 
+
+
   def index
 
   end
 
   def new_message
-    message = Message.new created_at: Time.now, message: {device: params[:device], message: params[:message]}.to_json
-    message.save
+
+    if params[:device] = 'H'
+      ac = FujitsuAC.new
+      temp = params[:temperature]
+      mode = params[:mode]
+      fan = params[:fan]
+      code = ac.generate(temp.to_i, ac.modes[mode.to_i], ac.fan_settings[fan.to_i])
+      message = Message.new created_at: Time.now, message: {device: 'IF', message: code}.to_json
+      message.save
+    end
+
     redirect_to '/?OK'
   end
 

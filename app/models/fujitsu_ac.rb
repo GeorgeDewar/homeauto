@@ -7,6 +7,14 @@ class FujitsuAC
   MODES = [:auto, :cool, :dry, :fan, :heat]
   FAN_SETTINGS = [:auto, :high, :med, :low, :quiet]
 
+  def modes
+    MODES
+  end
+
+  def fan_settings
+    FAN_SETTINGS
+  end
+
   def generate(temp, mode=:auto, fan=:auto)
     temp_val = temp - TEMP_OFFSET
     mode_val = MODES.index mode
