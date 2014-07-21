@@ -11,7 +11,7 @@ int STATUS_PIN = 13;
 RCSwitch mySwitch = RCSwitch();
 IRsend irsend;
 
-const char kHostname[] = "homeauto.dewar.co.nz";
+const char kHostname[] = "192.168.20.102.xip.io";  //"homeauto.dewar.co.nz";
 const char kPath[] = "/get?devices=H,S&long=1";
 
 // Number of milliseconds to wait without receiving any data before we give up
@@ -20,7 +20,7 @@ const int kNetworkTimeout = 30*1000;
 const int kNetworkDelay = 1000;
 
 // Default codes for Fujitsu heat pump
-unsigned char OFF[7] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b00000010, 0b11111101};
+//unsigned char OFF[7] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b00000010, 0b11111101};
 unsigned char ON_20_DEG_HEAT[16] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b11111110, 0b00001001, 0b00110000, 
                                 0b01000001, 0b00000100, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00100000, 0b01101011};
 
@@ -51,7 +51,7 @@ void loop()
   EthernetClient c;
   HttpClient http(c);
   
-  response = http.get(kHostname, kPath);
+  response = http.get(kHostname, 4567, kPath);
   if (response == 0)
   {
     Serial.println("startedRequest ok");
@@ -140,29 +140,43 @@ void loop()
   http.stop();
 }
 
+byte getVal(char c)
+{
+   if(c >= '0' && c <= '9')
+     return (byte)(c - '0');
+   else
+     return (byte)(c-'A'+10);
+}
+
 void execute(char data[], int len){
   //char data[] = {d1,d2,d3};
   char device = data[0];
-  if(device == 'H'){
-      Serial.print("Heat Pump: ");
+  if(device == 'I'){
+      Serial.print("Infrared TX: ");
       
-      char command = data[1];
-      if(command == '0'){
-        //Serial.println("Sending OFF code");
+      char protocol = data[1];
+      if(protocol == 'F'){
+        Serial.print("Fujitsu [");
+        // Copy data
+        int dataLen = (len - 2) / 2;
+        unsigned char irData[dataLen];
+        for(int i=0; i<dataLen; i++){
+          //irData[i] = data[i+2];
+          irData[i] = getVal(data[i*2+2+1]) + (getVal(data[i*2+2]) << 4);
+          Serial.print(irData[i], HEX);
+        }
         digitalWrite(STATUS_PIN, HIGH);
-        irsend.sendFujitsu(OFF, 56);
+        irsend.sendFujitsu(irData, dataLen * 8);
         digitalWrite(STATUS_PIN, LOW);
-      }
-      else if(command == '1'){
-        //Serial.println("Sending ON code (20 degrees, HEAT)");
-        digitalWrite(STATUS_PIN, HIGH);
-        irsend.sendFujitsu(ON_20_DEG_HEAT, 128);
-        digitalWrite(STATUS_PIN, LOW);
-        
+        Serial.println("]");
       }
       else{
-        Serial.println("Unrecognized command + " + command);
+        Serial.print("Unknown Protocol '" + protocol);
+        Serial.println("']");
+        return;
       }
+      
+      
     }
     else if(device == 'S'){
       Serial.print("Switch: ");

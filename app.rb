@@ -1,5 +1,6 @@
 require 'sinatra'
 require './common.rb'
+require './fujitsu_ac.rb'
 
 NO_CONTENT = 204
 POLL_TIMEOUT = 10 # seconds
@@ -21,6 +22,8 @@ post '/' do
   message.save
   redirect '/?OK'
 end
+
+i = 0
 
 get '/get' do
   devices = params[:devices].split ','
