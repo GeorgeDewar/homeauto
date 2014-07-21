@@ -1,10 +1,3 @@
-// (c) Copyright 2010-2012 MCQN Ltd.
-// Released under Apache License, version 2.0
-//
-// Simple example to show how to use the HttpClient library
-// Get's the web page given at http://<kHostname><kPath> and
-// outputs the content to the serial port
-
 #include <SPI.h>
 #include <IRremote.h>
 #include <RCSwitch.h>
@@ -13,22 +6,21 @@
 #include <EthernetClient.h>
 
 byte MAC[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
+int STATUS_PIN = 13;
 
 RCSwitch mySwitch = RCSwitch();
 IRsend irsend;
-int STATUS_PIN = 13;
 
 const char kHostname[] = "homeauto.dewar.co.nz";
 const char kPath[] = "/get?devices=H,S&long=1";
-
 
 // Number of milliseconds to wait without receiving any data before we give up
 const int kNetworkTimeout = 30*1000;
 // Number of milliseconds to wait if no data is available before trying again
 const int kNetworkDelay = 1000;
 
+// Default codes for Fujitsu heat pump
 unsigned char OFF[7] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b00000010, 0b11111101};
-
 unsigned char ON_20_DEG_HEAT[16] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b11111110, 0b00001001, 0b00110000, 
                                 0b01000001, 0b00000100, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00100000, 0b01101011};
 
@@ -38,12 +30,11 @@ unsigned char OFF_CODES[3] = {0x6, 0x4, 0x2};
 
 void setup()
 {
-  // initialize serial communications at 9600 bps:
   Serial.begin(9600); 
 
   while (Ethernet.begin(MAC) != 1)
   {
-    //Serial.println("Error getting IP address via DHCP, trying again...");
+    Serial.println("Error getting IP address via DHCP, trying again...");
     delay(15000);
   }
   
