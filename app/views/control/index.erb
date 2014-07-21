@@ -1,0 +1,20 @@
+
+<h1>The Dewar's Super Duper Home Automation System</h1>
+
+<h2>Heat Pump</h2>
+<form method="post" action="/control">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <input type="hidden" name="device" value="H" />
+    <button type="submit" name="message" value="1">On</button>
+    <button type="submit" name="message" value="0">Off</button>
+</form>
+
+<h2>Switch</h2>
+<form method="post" action="/control">
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <input type="hidden" name="device" value="S2" />
+    <button type="submit" name="message" value="1">On</button>
+    <button type="submit" name="message" value="0">Off</button>
+</form>
+
+
