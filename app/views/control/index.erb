@@ -36,13 +36,15 @@
 
 </form>
 
-
-<h2>Electric Blanket</h2>
-<form class="form" method="post" action="/control">
+<form class="form well" method="post" action="/control">
+    <h2>Electric Blanket</h2>
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <input type="hidden" name="device" value="S2" />
-    <button type="submit" name="message" value="1">On</button>
-    <button type="submit" name="message" value="0">Off</button>
+        <fieldset id="state" class="full-width-2" data-role="controlgroup" data-type="horizontal">
+            <legend>State</legend>
+            <label>On<input type="radio" name="state" value="off" /></label>
+            <label>Off<input type="radio" name="state" value="off" /></label>
+        </fieldset>
 </form>
 
     </div>
