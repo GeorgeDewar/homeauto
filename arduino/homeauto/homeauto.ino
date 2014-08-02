@@ -11,7 +11,7 @@ int STATUS_PIN = 13;
 RCSwitch mySwitch = RCSwitch();
 IRsend irsend;
 
-const char kHostname[] = "192.168.20.102.xip.io";  //"homeauto.dewar.co.nz";
+const char kHostname[] = "homeauto.dewar.co.nz"; //"192.168.20.102.xip.io";
 const char kPath[] = "/get?devices=H,S&long=1";
 
 // Number of milliseconds to wait without receiving any data before we give up
@@ -51,7 +51,7 @@ void loop()
   EthernetClient c;
   HttpClient http(c);
   
-  response = http.get(kHostname, 3000, kPath);
+  response = http.get(kHostname, kPath);
   if (response == 0)
   {
     Serial.println("startedRequest ok");
