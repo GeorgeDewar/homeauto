@@ -13,6 +13,25 @@
  *= require_tree .
  */
 
+.container {
+    margin: 20px;
+}
+
+.col-md-5 {
+    width: 40%;
+}
+
+.well {
+    background-color: #eee;
+    padding: 10px;
+    border: 1px solid #ccc;
+}
+
+.well h2 {
+    margin-top: 0px;
+    margin-bottom: 20px;
+}
+
 .ui-controlgroup-controls
 {
     display: table;
