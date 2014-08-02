@@ -2,46 +2,38 @@
 <h1>The Dewar's Super Duper Home Automation System</h1>
 
 <div class="row">
-    <div class="col-md-6">
+    <div class="col-md-5">
 
 <h2>Heat Pump</h2>
 <form class="form well" method="post" action="/control">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <input type="hidden" name="device" value="H" />
 
-    <div id="temp-slider"></div>
-    <select id="temp" name="temp" class="form-control">
-        <% for i in 16..30 %>
-          <option value="<%= i %>"><%= i %> degrees</option>
-        <% end %>
-    </select>
+    <fieldset>
+        <legend>Temperature</legend>
+        <input type="range" id="temp" name="temp" min="16" max="30" />
+    </fieldset>
 
-    <div id="modes">
-        <label for="mode">Mode</label>
+    <fieldset id="mode" class="full-width-<%= FujitsuAC.modes.length %>" data-role="controlgroup" data-type="horizontal">
+        <legend>Mode</legend>
         <% FujitsuAC.modes.each_with_index do |mode, index| %>
-          <label><%= mode %><input type="radio" name="mode" value="<%= index %>" /></label>
+          <label><%= mode.to_s.humanize %><input type="radio" name="mode" value="<%= index %>" /></label>
         <% end %>
+    </fieldset>
 
+    <fieldset id="fan" class="full-width-<%= FujitsuAC.fan_settings.length %>" data-role="controlgroup" data-type="horizontal">
+        <legend>Fan</legend>
+        <% FujitsuAC.fan_settings.each_with_index do |mode, index| %>
+          <label><%= mode.to_s.humanize %><input type="radio" name="fan" value="<%= index %>" /></label>
+        <% end %>
+    </fieldset>
 
-    </div>
+    <fieldset id="state" class="full-width-2" data-role="controlgroup" data-type="horizontal">
+        <legend>State</legend>
+        <label>On<input type="radio" name="state" value="off" /></label>
+        <label>Off<input type="radio" name="state" value="off" /></label>
+    </fieldset>
 
-    <select name="mode">
-        <option value="0">Auto</option>
-        <option value="1">Cool</option>
-        <option value="2">Dry</option>
-        <option value="3">Fan</option>
-        <option value="4">Heat</option>
-    </select>
-
-    <select name="fan">
-        <option value="0">Auto</option>
-        <option value="1">High</option>
-        <option value="2">Medium</option>
-        <option value="3">Low</option>
-        <option value="4">Quiet</option>
-    </select>
-    <button class="btn btn-primary" type="submit" name="message" value="1">On</button>
-    <button class="btn" type="submit" name="message" value="0">Off</button>
 </form>
 
 
