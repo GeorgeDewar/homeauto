@@ -1,12 +1,30 @@
 
 <h1>The Dewar's Super Duper Home Automation System</h1>
 
+<div class="row">
+    <div class="col-md-6">
+
 <h2>Heat Pump</h2>
-<form class="form" method="post" action="/control">
+<form class="form well" method="post" action="/control">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
     <input type="hidden" name="device" value="H" />
-    <input id="temp" name="temperature" type="range" min="16" max="30" step="1" style="width: 400px;" />
-    <input id="temp-val" type="text" style="width: 50px;" />
+
+    <div id="temp-slider"></div>
+    <select id="temp" name="temp" class="form-control">
+        <% for i in 16..30 %>
+          <option value="<%= i %>"><%= i %> degrees</option>
+        <% end %>
+    </select>
+
+    <div id="modes">
+        <label for="mode">Mode</label>
+        <% FujitsuAC.modes.each_with_index do |mode, index| %>
+          <label><%= mode %><input type="radio" name="mode" value="<%= index %>" /></label>
+        <% end %>
+
+
+    </div>
+
     <select name="mode">
         <option value="0">Auto</option>
         <option value="1">Cool</option>
@@ -14,6 +32,7 @@
         <option value="3">Fan</option>
         <option value="4">Heat</option>
     </select>
+
     <select name="fan">
         <option value="0">Auto</option>
         <option value="1">High</option>
@@ -25,6 +44,7 @@
     <button class="btn" type="submit" name="message" value="0">Off</button>
 </form>
 
+
 <h2>Electric Blanket</h2>
 <form class="form" method="post" action="/control">
     <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
@@ -33,4 +53,7 @@
     <button type="submit" name="message" value="0">Off</button>
 </form>
 
+    </div>
 
+
+</div>

@@ -7,11 +7,11 @@ class FujitsuAC
   MODES = [:auto, :cool, :dry, :fan, :heat]
   FAN_SETTINGS = [:auto, :high, :med, :low, :quiet]
 
-  def modes
+  def self.modes
     MODES
   end
 
-  def fan_settings
+  def self.fan_settings
     FAN_SETTINGS
   end
 
