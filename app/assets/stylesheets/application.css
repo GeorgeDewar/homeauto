@@ -19,6 +19,16 @@
 
 .col-md-5 {
     width: 33%;
+    float: left;
+}
+.col-md-8 {
+    padding-left: 10px;
+    width: 66%;
+    float: left;
+}
+
+footer {
+    clear: both;
 }
 
 .well {
