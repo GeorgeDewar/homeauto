@@ -18,13 +18,21 @@
 }
 
 .device {
-    width: 100%;
+    width: 33%;
     float: left;
 }
-.col-md-8 {
+.scheduling {
     padding-left: 10px;
     width: 66%;
     float: left;
+}
+
+@media screen and (max-width: 480px) {
+    .device, .scheduling {
+        width: 100%;
+        float: none;
+        padding-left: 0;
+    }
 }
 
 footer {
