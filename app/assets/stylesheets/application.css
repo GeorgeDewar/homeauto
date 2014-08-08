@@ -54,3 +54,14 @@ footer {
 .full-width-3 .ui-radio { width: 33%; }
 .full-width-4 .ui-radio { width: 25%; }
 .full-width-5 .ui-radio { width: 20%; }
+
+.no-radio .ui-radio {
+    width: 100px;
+}
+
+.no-radio .ui-btn:after{
+    display: none!important;
+}
+.no-radio .ui-btn-icon-left{
+    padding-left: 1.5em;
+}

@@ -4,23 +4,39 @@ class FujitsuAC
 
   TEMP_MIN = 16, TEMP_MAX = 30
 
+  DEFAULTS = { :state => :off, :temp => 21, :mode => :auto, :fan => :auto }
   MODES = [:auto, :cool, :dry, :fan, :heat]
   FAN_SETTINGS = [:auto, :high, :med, :low, :quiet]
 
   class << self
 
-    def self.modes
+    def defaults
+      DEFAULTS
+    end
+
+    def modes
       MODES
     end
 
-    def self.fan_settings
+    def fan_settings
       FAN_SETTINGS
     end
 
-    def generate(temp, mode=:auto, fan=:auto)
-      temp_val = temp - TEMP_OFFSET
-      mode_val = MODES.index mode
-      fan_val = FAN_SETTINGS.index fan
+    def generate(options)
+      case options.state
+        when :on
+          generate_on(options)
+        when :off
+          generate_off
+        else
+          raise 'Unknown value for state'
+      end
+    end
+
+    def generate_on(options)
+      temp_val = options.temp - TEMP_OFFSET
+      mode_val = MODES.index options.mode
+      fan_val = FAN_SETTINGS.index options.fan
 
       code = BASE
       code[16] = temp_val.to_s(16)
@@ -29,6 +45,10 @@ class FujitsuAC
       code[30..31] = generate_checksum code[16..29]
 
       code.upcase
+    end
+
+    def generate_off
+
     end
 
   protected

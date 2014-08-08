@@ -12,14 +12,14 @@
                 <input type="range" id="temp" name="temp" min="16" max="30" />
             </fieldset>
 
-            <fieldset id="mode" class="full-width-<%= FujitsuAC.modes.length %>" data-role="controlgroup" data-type="horizontal">
+            <fieldset id="mode" class="no-radio" data-role="controlgroup">
                 <legend>Mode</legend>
                 <% FujitsuAC.modes.each_with_index do |mode, index| %>
                   <label><%= mode.to_s.humanize %><input type="radio" name="mode" value="<%= index %>" /></label>
                 <% end %>
             </fieldset>
 
-            <fieldset id="fan" class="full-width-<%= FujitsuAC.fan_settings.length %>" data-role="controlgroup" data-type="horizontal">
+            <fieldset id="fan" class="no-radio" data-role="controlgroup">
                 <legend>Fan</legend>
                 <% FujitsuAC.fan_settings.each_with_index do |mode, index| %>
                   <label><%= mode.to_s.humanize %><input type="radio" name="fan" value="<%= index %>" /></label>
@@ -47,7 +47,7 @@
     </div>
     <div class="col-md-8">
         <div class="well">
-            <h1>Scheduling</h1>
+            <h2>Scheduling</h2>
 
         </div>
     </div>
