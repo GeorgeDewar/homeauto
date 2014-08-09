@@ -11,4 +11,11 @@ $( document ).on( "pageinit", function(){
         $(".no-radio .ui-radio-on").addClass("ui-btn-active");
     }
 
+    submit = function(){
+        $(this).closest('form').submit();
+    }
+
+    $('input[data-type="range"]').on('slidestop', submit);
+    $('input[data-type!="range"]').on('change', submit);
+
 });
