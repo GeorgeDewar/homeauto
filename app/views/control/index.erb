@@ -1,49 +1,32 @@
 
 <div class="row">
     <div class="device">
-        <form class="form well" method="post" action="/control">
-            <h2>Heat Pump</h2>
 
-            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-            <input type="hidden" name="device" value="H" />
+        <% @devices.each do |device| %>
+          <form class="form well" method="post" action="/control">
+              <h2><%= device.name %></h2>
 
-            <fieldset>
-                <legend>Temperature</legend>
-                <input type="range" id="temp" name="temp" min="16" max="30" />
-            </fieldset>
+              <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+              <input type="hidden" name="device" value="<%= device.id %>" />
 
-            <fieldset id="mode" class="no-radio" data-role="controlgroup">
-                <legend>Mode</legend>
-                <% FujitsuAC.modes.each_with_index do |mode, index| %>
-                  <label><%= mode.to_s.humanize %><input type="radio" name="mode" value="<%= index %>" /></label>
-                <% end %>
-            </fieldset>
-
-            <fieldset id="fan" class="no-radio" data-role="controlgroup">
-                <legend>Fan</legend>
-                <% FujitsuAC.fan_settings.each_with_index do |mode, index| %>
-                  <label><%= mode.to_s.humanize %><input type="radio" name="fan" value="<%= index %>" /></label>
-                <% end %>
-            </fieldset>
-
-            <fieldset id="state" class="full-width-2" data-role="controlgroup" data-type="horizontal">
-                <legend>State</legend>
-                <label>On<input type="radio" name="state" value="off" /></label>
-                <label>Off<input type="radio" name="state" value="off" /></label>
-            </fieldset>
-
-        </form>
-
-        <form class="form well" method="post" action="/control">
-            <h2>Electric Blanket</h2>
-            <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
-            <input type="hidden" name="device" value="S2" />
-            <fieldset id="state" class="full-width-2" data-role="controlgroup" data-type="horizontal">
-                <legend>State</legend>
-                <label>On<input type="radio" name="state" value="off" /></label>
-                <label>Off<input type="radio" name="state" value="off" /></label>
-            </fieldset>
-        </form>
+              <% device.attributes.each do |key, attribute| %>
+                <% if attribute.type == :range %>
+                  <fieldset>
+                      <legend><%= attribute.name %></legend>
+                      <input type="range" name="<%= key %>" min="<%= attribute.min %>" max="<%= attribute.max %>" />
+                  </fieldset>
+                <% elsif attribute.type == :discrete %>
+                  <fieldset class="<%= attribute.horizontal ? '' : 'no-radio' %>" data-role="controlgroup" data-type="<%= attribute.horizontal ? 'horizontal' : '' %>">
+                      <legend><%= attribute.name %></legend>
+                      <% attribute.options.each do |option| %>
+                        <label><%= option.to_s.humanize %><input type="radio" name="<%= key %>" value="<%= option %>" /></label>
+                      <% end %>
+                  </fieldset>
+                <% else raise 'Unknown attribute type'
+                end %>
+              <% end %>
+          </form>
+        <% end %>
     </div>
     <div class="scheduling">
         <div class="well">

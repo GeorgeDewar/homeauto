@@ -11,14 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140713091602) do
+ActiveRecord::Schema.define(version: 20140808114117) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "devices", force: true do |t|
+    t.string   "name"
+    t.string   "definition"
+    t.string   "address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "messages", force: true do |t|
+    t.integer  "device_id"
     t.string   "message"
     t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "sent_at"
     t.datetime "acknowledged_at"
   end
@@ -26,10 +36,11 @@ ActiveRecord::Schema.define(version: 20140713091602) do
   create_table "tasks", force: true do |t|
     t.string   "name"
     t.string   "expression"
+    t.integer  "device_id"
     t.string   "message"
-    t.datetime "last_run_at"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "last_run_at"
   end
 
 end

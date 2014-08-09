@@ -3,11 +3,11 @@ class CreateTasks < ActiveRecord::Migration
     create_table :tasks do |t|
       t.string :name
       t.string :expression
+      t.references :device
       t.string :message
 
-      t.datetime :last_run_at
-
       t.timestamps
+      t.datetime :last_run_at
     end
   end
 end

@@ -5,3 +5,11 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+
+heat_pump = Device.create(name: 'Heat Pump', definition: 'FujitsuAC')
+
+Task.create(name: 'Warm Weekday Mornings', expression: '45 6 * * 1-5', device: heat_pump, message: {
+    state: :on,
+    temp: 22,
+    mode: :heat
+}.to_json)
