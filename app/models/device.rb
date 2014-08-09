@@ -11,7 +11,8 @@ class Device < ActiveRecord::Base
         :temp => OpenStruct.new({
             name: 'Temperature',
             type: :range,
-            range: 16..30
+            min: 16,
+            max: 30
         }),
         :mode => OpenStruct.new({
             name: 'Mode',
