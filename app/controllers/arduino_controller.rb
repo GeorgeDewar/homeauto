@@ -12,16 +12,17 @@ class ArduinoController < ApplicationController
       i += CHECK_INTERVAL
     end
 
-    messages = messages_for(devices)
-    return head :no_content if messages.empty?
+    message = messages_for(devices).first
+    return head :no_content if !message
 
-    messages.each do |m|
-      m.sent_at = Time.now
-      m.save
-    end
-    content = messages.map { |m| JSON.parse(m.message) }
-    content = content.map { |m| "#{m['device']}#{m['message']}" }.join ' '
+    puts message.inspect
+
+    content = message.to_raw
     puts content
+
+    message.sent_at = Time.now
+    message.save
+
     render :text => content
   end
 
