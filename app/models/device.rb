@@ -3,7 +3,7 @@ class Device < ActiveRecord::Base
   has_many :messages
 
   def last_state
-    messages.last ? JSON.parse(messages.last.message) : FujitsuAC.defaults
+    messages.last ? JSON.parse(Message.last.message, symbolize_names: true) : FujitsuAC.defaults
   end
 
   def attributes

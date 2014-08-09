@@ -1,21 +1,14 @@
 class ControlController < ApplicationController
 
-
-
   def index
     @devices = Device.all
   end
 
   def new_message
-
-    if params[:device] = 'H'
-      temp = params[:temperature]
-      mode = params[:mode]
-      fan = params[:fan]
-      code = FujitsuAC.generate(temp.to_i, ac.modes[mode.to_i], ac.fan_settings[fan.to_i])
-      message = Message.new created_at: Time.now, message: {device: 'IF', message: code}.to_json
-      message.save
-    end
+    device = Device.find(params[:device])
+    message_content = device.attributes.keys.map { |x| { x => params[x] } }.reduce(:merge)
+    message = Message.new(device: device, message: message_content.to_json)
+    message.save!
 
     redirect_to '/?OK'
   end

@@ -1,4 +1,4 @@
-$(function(){
+$( document ).on( "pageinit", function(){
 
     setActive();
 

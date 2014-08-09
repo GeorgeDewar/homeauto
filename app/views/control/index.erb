@@ -19,7 +19,7 @@
                   <fieldset class="<%= attribute.horizontal ? '' : 'no-radio' %>" data-role="controlgroup" data-type="<%= attribute.horizontal ? 'horizontal' : '' %>">
                       <legend><%= attribute.name %></legend>
                       <% attribute.options.each do |option| %>
-                        <label><%= option.to_s.humanize %><input type="radio" name="<%= key %>" value="<%= option %>" <%= 'checked="checked"' if device.last_state[key] == option %> /></label>
+                        <label><%= option.to_s.humanize %><input type="radio" name="<%= key %>" value="<%= option %>" <%= 'checked="checked"' if device.last_state[key].to_sym == option %> /></label>
                       <% end %>
                   </fieldset>
                 <% else raise 'Unknown attribute type'
