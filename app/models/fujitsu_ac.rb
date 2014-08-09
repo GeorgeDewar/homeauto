@@ -23,7 +23,7 @@ class FujitsuAC
     end
 
     def generate(options)
-      case options.state
+      case options[:state].to_sym
         when :on
           generate_on(options)
         when :off
@@ -34,9 +34,9 @@ class FujitsuAC
     end
 
     def generate_on(options)
-      temp_val = options.temp - TEMP_OFFSET
-      mode_val = MODES.index options.mode
-      fan_val = FAN_SETTINGS.index options.fan
+      temp_val = options[:temp].to_i - TEMP_OFFSET
+      mode_val = MODES.index options[:mode].to_sym
+      fan_val = FAN_SETTINGS.index options[:fan].to_sym
 
       code = BASE
       code[16] = temp_val.to_s(16)
