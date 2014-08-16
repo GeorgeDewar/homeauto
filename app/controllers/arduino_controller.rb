@@ -23,7 +23,7 @@ class ArduinoController < ApplicationController
     message.sent_at = Time.now
     message.save
 
-    render :text => content
+    render :body => content
   end
 
   protected
