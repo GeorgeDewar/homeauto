@@ -14,3 +14,4 @@ gem 'clockwork'
 
 gem 'unicorn'
 
+gem 'pry'
