@@ -23,7 +23,6 @@ class ArduinoController < ApplicationController
     message.sent_at = Time.now
     message.save
 
-    response.headers.clear
     render text: content
   end
 
