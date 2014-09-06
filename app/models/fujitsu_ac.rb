@@ -49,7 +49,7 @@ class FujitsuAC
     end
 
     def generate_off
-
+      OFF
     end
 
   protected
