@@ -154,7 +154,6 @@ void execute(char data[], int len){
         int dataLen = (len - 2) / 2;
         unsigned char irData[dataLen];
         for(int i=0; i<dataLen; i++){
-          //irData[i] = data[i+2];
           irData[i] = getVal(data[i*2+2+1]) + (getVal(data[i*2+2]) << 4);
           Serial.print(irData[i], HEX);
         }
