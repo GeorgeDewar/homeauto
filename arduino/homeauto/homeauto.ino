@@ -19,11 +19,6 @@ const int kNetworkTimeout = 30*1000;
 // Number of milliseconds to wait if no data is available before trying again
 const int kNetworkDelay = 1000;
 
-// Default codes for Fujitsu heat pump
-//unsigned char OFF[7] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b00000010, 0b11111101};
-unsigned char ON_20_DEG_HEAT[16] = {0b00010100, 0b01100011, 0b00000000, 0b00010000, 0b00010000, 0b11111110, 0b00001001, 0b00110000, 
-                                0b01000001, 0b00000100, 0b00000000, 0b00000000, 0b00000000, 0b00000000, 0b00100000, 0b01101011};
-
 unsigned long WATTS_CLEVER_DEVICE_ID = 0x62E650;
 unsigned char ON_CODES[3] = {0xE,0xC,0xA};
 unsigned char OFF_CODES[3] = {0x6, 0x4, 0x2};
