@@ -20,10 +20,6 @@ const int kNetworkTimeout = 30*1000;
 // Number of milliseconds to wait if no data is available before trying again
 const int kNetworkDelay = 1000;
 
-unsigned long WATTS_CLEVER_DEVICE_ID = 0x62E650;
-unsigned char ON_CODES[3] = {0xE,0xC,0xA};
-unsigned char OFF_CODES[3] = {0x6, 0x4, 0x2};
-
 void setup()
 {
   Serial.begin(9600); 
@@ -178,38 +174,36 @@ void execute(char data[], int len){
       
     }
     
-    else if(device == 'S'){
+    else if(device == 'R'){
       Serial.print(F("RF Switch TX: "));
       char subDevice = data[1];
-      char index = subDevice - '0';
-      if(index < 0 || index > 2){
-        Serial.println(F("Bad sub-device")); 
+      if(subDevice == 'S'){
+        int bits = (len - 2) * 4;
+
+        // All this to get it null-terminated
+        char msg[(len - 2) + 1];
+        for(int i=0; i<len-2; i++){
+          msg[i] = data[i+2]; 
+        }      
+        msg[len-2] = '\0';
+
+        unsigned long value = strtoul(msg, 0, 16);
+        Serial.print(value, HEX);
+        digitalWrite(STATUS_PIN, HIGH);
+        mySwitch.send(value, bits); 
+        digitalWrite(STATUS_PIN, LOW);
+        Serial.println();
       }
       else{
-        Serial.print('#');
-        Serial.print(index, DEC);
-        Serial.print(' ');
-        char command = data[2];
-        if(command == '0'){
-          Serial.println("OFF"); 
-          long code = WATTS_CLEVER_DEVICE_ID + OFF_CODES[index];
-          Serial.println(code, HEX);
-          Serial.println(code, DEC);
-          mySwitch.send(code, 24);
-        }
-        else if(command == '1'){
-          Serial.println("ON");
-          Serial.println(WATTS_CLEVER_DEVICE_ID + ON_CODES[index], HEX);
-          mySwitch.send(WATTS_CLEVER_DEVICE_ID + ON_CODES[index], 24);
-        }
-        else{
-          Serial.println(F("Unrecognized command"));
-        }
+        Serial.print(F("Unrecognised RF protocol: '"));
+        Serial.print(subDevice);
+        Serial.println(F("'"));
       }
     }
     else{
-      //Serial.println("Normal send");
-       //irsend.sendFujitsu(ON_20_DEG_HEAT, 128);
+      Serial.print(F("Unrecognised device: '"));
+      Serial.print(device);
+      Serial.println(F("'"));
     }
     
 }
