@@ -2,6 +2,7 @@ class ControlController < ApplicationController
 
   def index
     @devices = Device.all
+    @tasks = Task.all
   end
 
   def new_message

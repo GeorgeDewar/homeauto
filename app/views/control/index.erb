@@ -31,7 +31,26 @@
     <div class="scheduling">
         <div class="well">
             <h2>Scheduling</h2>
-
+            <table style="width: 100%;">
+                <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Device</th>
+                    <th>Command</th>
+                    <th>Schedule</th>
+                </tr>
+                </thead>
+                <tbody>
+                <% @tasks.each do |task| %>
+                  <tr>
+                      <td><%= task.name %></td>
+                      <td><%= task.device.name %></td>
+                      <td><%= task.message %></td>
+                      <td><%= task.expression %></td>
+                  </tr>
+                <% end %>
+                </tbody>
+            </table>
         </div>
     </div>
 
