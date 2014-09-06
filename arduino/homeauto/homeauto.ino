@@ -6,7 +6,7 @@
 #include <EthernetClient.h>
 
 byte MAC[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
-int STATUS_PIN = 13;
+int STATUS_PIN = 4;
 
 RCSwitch mySwitch = RCSwitch();
 IRsend irsend;
