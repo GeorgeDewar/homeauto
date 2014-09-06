@@ -30,14 +30,14 @@ void setup()
 
   while (Ethernet.begin(MAC) != 1)
   {
-    Serial.println("Error getting IP address via DHCP, trying again...");
+    Serial.println(F("DHCP failed, retry..."));
     delay(15000);
   }
   
   pinMode(STATUS_PIN, OUTPUT);
   pinMode(RF_TX_PIN, OUTPUT);
   mySwitch.enableTransmit(RF_TX_PIN);
-  Serial.println("Ready");
+  Serial.println(F("Ready"));
 }
 
 void loop()
@@ -50,12 +50,12 @@ void loop()
   response = http.get(kHostname, kPath);
   if (response == 0)
   {
-    Serial.println("startedRequest ok");
+    Serial.println(F("\nStarted Request"));
 
     response = http.responseStatusCode();
     if (response >= 0)
     {
-      Serial.print("Got status code: ");
+      Serial.print(F("Status: "));
       Serial.println(response);
 
       if(response == 204){
@@ -72,9 +72,9 @@ void loop()
       if (response >= 0)
       {
         int bodyLen = http.contentLength();
-        //Serial.print("Content length is: ");
-        Serial.println(bodyLen);
-        Serial.println();
+        Serial.print(F("Content length: "));
+        Serial.print(bodyLen);
+        Serial.println(F(" bytes"));
         //Serial.println("Body returned follows:");
       
         // Now we've got to the body, so we can print it out
@@ -104,32 +104,33 @@ void loop()
         }
         
         if(i != bodyLen){
-          //Serial.print("Failed to retrieve all data. Got ");
+          Serial.print(F("Failed to retrieve all data. Got "));
           Serial.print(i);
-          Serial.print(" bytes");
+          Serial.print(F(" bytes"));
           delay(10000);
           return;
         }
         
+        Serial.println();
         execute(data, bodyLen);
       }
       else
       {
-        //Serial.print("Failed to skip response headers: ");
+        Serial.print(F("Failed to skip response headers: "));
         Serial.println(response);
         delay(10000);
       }
     }
     else
     {    
-      //Serial.print("Getting response failed: ");
+      Serial.print(F("Getting response failed: "));
       Serial.println(response);
       delay(10000);
     }
   }
   else
   {
-    Serial.print("Connect failed: ");
+    Serial.print(F("Connect failed: "));
     Serial.println(response);
     delay(10000);
   }
@@ -148,11 +149,11 @@ void execute(char data[], int len){
   //char data[] = {d1,d2,d3};
   char device = data[0];
   if(device == 'I'){
-      Serial.print("Infrared TX: ");
+      Serial.print(F("Infrared TX: "));
       
       char protocol = data[1];
       if(protocol == 'F'){
-        Serial.print("Fujitsu [");
+        Serial.print(F("Fujitsu ["));
         // Copy data
         int dataLen = (len - 2) / 2;
         unsigned char irData[dataLen];
@@ -165,11 +166,12 @@ void execute(char data[], int len){
         Serial.print(dataLen*8, DEC);
         irsend.sendFujitsu(irData, dataLen * 8);
         digitalWrite(STATUS_PIN, LOW);
-        Serial.println("]");
+        Serial.println(F("]"));
       }
       else{
-        Serial.print("Unknown Protocol '" + protocol);
-        Serial.println("']");
+        Serial.print(F("Unknown Protocol '"));
+        Serial.print(protocol);
+        Serial.println(F("'"));
         return;
       }
       
@@ -177,11 +179,11 @@ void execute(char data[], int len){
     }
     
     else if(device == 'S'){
-      Serial.print("Switch: ");
+      Serial.print(F("RF Switch TX: "));
       char subDevice = data[1];
       char index = subDevice - '0';
       if(index < 0 || index > 2){
-        Serial.println("Bad sub-device"); 
+        Serial.println(F("Bad sub-device")); 
       }
       else{
         Serial.print('#');
@@ -201,7 +203,7 @@ void execute(char data[], int len){
           mySwitch.send(WATTS_CLEVER_DEVICE_ID + ON_CODES[index], 24);
         }
         else{
-          Serial.println("Unrecognized command");
+          Serial.println(F("Unrecognized command"));
         }
       }
     }
