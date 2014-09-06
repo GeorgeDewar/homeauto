@@ -7,6 +7,7 @@
 
 byte MAC[] = { 0xDE, 0xAD, 0xBE, 0xEF, 0xFE, 0xED };
 int STATUS_PIN = 4;
+int RF_TX_PIN  = 7;
 
 RCSwitch mySwitch = RCSwitch();
 IRsend irsend;
@@ -34,8 +35,8 @@ void setup()
   }
   
   pinMode(STATUS_PIN, OUTPUT);
-  pinMode(7, OUTPUT);
-  mySwitch.enableTransmit(7);
+  pinMode(RF_TX_PIN, OUTPUT);
+  mySwitch.enableTransmit(RF_TX_PIN);
   Serial.println("Ready");
 }
 
