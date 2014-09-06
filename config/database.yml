@@ -12,11 +12,3 @@ development:
   pool: 5
   timeout: 5000
 
-production:
-  adapter: postgresql
-  database: homeauto
-  user: postgres
-  password: postgres
-  host: localhost
-  pool: 5
-  timeout: 5000
