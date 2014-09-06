@@ -3,7 +3,7 @@ class CreateDevices < ActiveRecord::Migration
     create_table :devices do |t|
       t.string :name
       t.string :definition
-      t.string :address
+      t.string :properties
 
       t.timestamps
     end

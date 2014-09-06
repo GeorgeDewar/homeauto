@@ -19,7 +19,7 @@ ActiveRecord::Schema.define(version: 20140808114117) do
   create_table "devices", force: true do |t|
     t.string   "name"
     t.string   "definition"
-    t.string   "address"
+    t.string   "properties"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
