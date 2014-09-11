@@ -16,7 +16,7 @@ $( document ).on( "pageinit", function(){
     }
 
     $('input[data-type="range"]').on('slidestop', submit);
-    $('input[data-type!="range"]').on('change', submit);
+    $('input[data-type!="range"]').not('.name-change').on('change', submit);
 
     $('h2.name').click(function(){
         $(this).hide();
@@ -27,7 +27,10 @@ $( document ).on( "pageinit", function(){
         $(this).hide();
         $.ajax('/devices/' + $(this).parents('form').data('device-id') + '', {
             method: 'put',
-            data: { 'device[name]': $(this).val() }
+            data: { 'device[name]': $(this).val() },
+            success: function(){
+                location.reload();
+            }
         });
         $(this).parents('form').find('h2.name').show();
     });
