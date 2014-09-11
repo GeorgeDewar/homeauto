@@ -7,8 +7,17 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 
 heat_pump = Device.create(name: 'Heat Pump', definition: 'FujitsuAC')
+
 sw1 = Device.create(name: 'Switch 1', definition: 'WattsClever', properties: {
     on: '62E65A', off: '62E652'
+}.to_json)
+
+sw2 = Device.create(name: 'Switch 2', definition: 'WattsClever', properties: {
+    on: '62E65D', off: '62E655'
+}.to_json)
+
+sw3 = Device.create(name: 'Switch 3', definition: 'WattsClever', properties: {
+    on: '62E65F', off: '62E657'
 }.to_json)
 
 Task.create(name: 'Warm Weekday Mornings', expression: '45 6 * * 1-5', device: heat_pump, message: {
