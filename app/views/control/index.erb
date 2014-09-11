@@ -3,8 +3,9 @@
     <div class="device">
 
         <% @devices.each do |device| %>
-          <form class="form well" method="post" action="/control">
-              <h2><%= device.name %></h2>
+          <form class="form well" method="post" action="/control" data-device-id="<%= device.id %>">
+              <h2 class="name"><%= device.name %></h2>
+              <input type="text" class="name-change" style="display: none;" value="<%= device.name %>" />
 
               <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
               <input type="hidden" name="device" value="<%= device.id %>" />

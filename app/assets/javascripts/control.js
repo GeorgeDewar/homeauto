@@ -18,4 +18,18 @@ $( document ).on( "pageinit", function(){
     $('input[data-type="range"]').on('slidestop', submit);
     $('input[data-type!="range"]').on('change', submit);
 
+    $('h2.name').click(function(){
+        $(this).hide();
+        $(this).parent().find('input.name-change').show().focus().select();
+    });
+
+    $('input.name-change').blur(function(){
+        $(this).hide();
+        $.ajax('/devices/' + $(this).parents('form').data('device-id') + '', {
+            method: 'put',
+            data: { 'device[name]': $(this).val() }
+        });
+        $(this).parents('form').find('h2.name').show();
+    });
+
 });
