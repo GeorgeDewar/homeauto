@@ -1,6 +1,7 @@
 require 'clockwork'
 require 'cron_parser'
-require './common.rb'
+require './config/boot'
+require './config/environment'
 
 module Clockwork
   handler do |job, time|
@@ -12,7 +13,7 @@ module Clockwork
       if last_ago < 60 && (task.last_run_at == nil || task.last_run_at < last)
         puts "Running task '#{task.name}' at #{Time.now.to_s}"
         task.last_run_at = Time.now
-        message = Message.new created_at: Time.now, message: task.message
+        message = Message.new created_at: Time.now, device: task.device, message: task.message
         message.save
         task.save
       end
