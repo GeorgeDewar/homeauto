@@ -5,7 +5,7 @@ require './config/environment'
 
 module Clockwork
   handler do |job, time|
-    Task.all.each do |task|
+    Task.where(enabled: true).each do |task|
       cron_parser = CronParser.new task.expression
       last = cron_parser.last(Time.now + 60)
       last_ago = Time.now - last
