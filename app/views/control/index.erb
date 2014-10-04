@@ -39,6 +39,7 @@
                     <th>Device</th>
                     <th>Command</th>
                     <th>Schedule</th>
+                    <th>Enabled</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -48,6 +49,7 @@
                       <td><%= task.device.name %></td>
                       <td><%= task.message %></td>
                       <td><%= task.expression %></td>
+                      <td><input type="checkbox" class="task-enabled" data-task-id="<%= task.id %>" <%= 'checked="checked"' if task.enabled %> /></td>
                   </tr>
                 <% end %>
                 </tbody>

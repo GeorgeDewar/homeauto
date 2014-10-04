@@ -10,6 +10,7 @@ HomeAutoServer::Application.routes.draw do
   get 'get' => 'arduino#messages'
 
   resources :devices, only: :update
+  resources :tasks, only: :update
 
   # You can have the root of your site routed with "root"
   # root 'welcome#index'
